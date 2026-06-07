@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
+  <title id="title">Forge-OS desktop optimization sample</title>
+  <desc id="desc">A desktop workspace sample showing left navigation, quick inbox, weekly board, today strip, growth evidence and system health.</desc>
+  <defs>
+    <style>
+      .bg { fill: #1c1610; }
+      .panel { fill: #241e16; stroke: #3d3528; stroke-width: 2; }
+      .panel2 { fill: #2c261e; stroke: #504838; stroke-width: 2; }
+      .accent { fill: #a08040; }
+      .danger { fill: #7a3030; }
+      .text { fill: #b0a080; font-family: "Segoe UI", Arial, sans-serif; }
+      .muted { fill: #7a7060; font-family: "Segoe UI", Arial, sans-serif; }
+      .small { font-size: 18px; }
+      .body { font-size: 22px; }
+      .title { font-size: 30px; font-weight: 700; }
+      .label { font-size: 15px; letter-spacing: 1px; }
+      .line { stroke: #a08040; stroke-width: 2; fill: none; }
+    </style>
+  </defs>
+  <rect class="bg" width="1280" height="760"/>
+  <rect x="28" y="28" width="168" height="704" rx="12" class="panel"/>
+  <text x="52" y="72" class="text title">Forge-OS</text>
+  <text x="52" y="102" class="muted small">Forge yourself</text>
+  <rect x="48" y="148" width="128" height="44" rx="8" class="panel2"/>
+  <text x="66" y="177" class="text small">01 周看板</text>
+  <text x="66" y="230" class="muted small">02 周复盘</text>
+  <text x="66" y="280" class="muted small">03 反思库</text>
+  <text x="66" y="330" class="muted small">04 月成长</text>
+  <text x="66" y="390" class="muted small">系统体检</text>
+  <text x="66" y="438" class="muted small">模块阶段</text>
+  <text x="66" y="486" class="muted small">使用仪式</text>
+
+  <rect x="224" y="28" width="948" height="86" rx="12" class="panel"/>
+  <text x="252" y="66" class="text title">今日进入系统的第一步：先倒空脑子</text>
+  <text x="252" y="96" class="muted small">新增轻量收集箱，不改变任务/OKR/同步数据契约；只提供澄清入口</text>
+  <rect x="990" y="50" width="134" height="36" rx="6" class="accent"/>
+  <text x="1014" y="74" fill="#1c1610" font-family="Segoe UI, Arial" font-size="18" font-weight="700">新增收集</text>
+
+  <rect x="224" y="140" width="332" height="248" rx="12" class="panel"/>
+  <text x="252" y="178" class="text title">收集箱</text>
+  <text x="252" y="210" class="muted small">任何念头先进入这里</text>
+  <rect x="252" y="232" width="280" height="42" rx="6" class="panel2"/>
+  <text x="270" y="260" class="text small">写一条想法、任务或担心...</text>
+  <rect x="252" y="292" width="126" height="34" rx="6" class="panel2"/>
+  <text x="272" y="315" class="text small">转任务</text>
+  <rect x="390" y="292" width="132" height="34" rx="6" class="panel2"/>
+  <text x="410" y="315" class="text small">转灵感</text>
+  <rect x="252" y="338" width="126" height="34" rx="6" class="panel2"/>
+  <text x="272" y="361" class="text small">转 OKR</text>
+  <rect x="390" y="338" width="132" height="34" rx="6" class="panel2"/>
+  <text x="410" y="361" class="text small">删除</text>
+
+  <rect x="586" y="140" width="584" height="248" rx="12" class="panel"/>
+  <text x="614" y="178" class="text title">本周任务看板</text>
+  <text x="614" y="210" class="muted small">收集箱澄清后的任务进入今天、日期列或收纳箱</text>
+  <rect x="614" y="236" width="88" height="134" rx="8" class="panel2"/>
+  <text x="634" y="264" class="text small">收纳</text>
+  <rect x="718" y="236" width="88" height="134" rx="8" class="panel2"/>
+  <text x="736" y="264" class="text small">周一</text>
+  <rect x="822" y="236" width="88" height="134" rx="8" class="panel2"/>
+  <text x="840" y="264" class="text small">周二</text>
+  <rect x="926" y="236" width="88" height="134" rx="8" class="panel2"/>
+  <text x="944" y="264" class="text small">周三</text>
+  <rect x="1030" y="236" width="88" height="134" rx="8" class="panel2"/>
+  <text x="1048" y="264" class="text small">OKR</text>
+
+  <path d="M556 270 C570 270 574 270 586 270" class="line"/>
+  <polygon points="586,270 574,264 574,276" class="accent"/>
+
+  <rect x="224" y="420" width="370" height="208" rx="12" class="panel"/>
+  <text x="252" y="458" class="text title">今日执行条</text>
+  <text x="252" y="490" class="muted small">今日进度 / 每日反思 / 时间块 / 情绪</text>
+  <rect x="252" y="520" width="286" height="18" rx="9" fill="#3d3528"/>
+  <rect x="252" y="520" width="172" height="18" rx="9" class="accent"/>
+  <text x="252" y="574" class="text body">收益：从混沌到行动的摩擦降低</text>
+
+  <rect x="626" y="420" width="370" height="208" rx="12" class="panel"/>
+  <text x="654" y="458" class="text title">成长证据档案</text>
+  <text x="654" y="490" class="muted small">完成 Objective / 周复盘 / 能力里程碑</text>
+  <circle cx="678" cy="532" r="10" class="accent"/>
+  <text x="700" y="540" class="text small">本周复盘已保存</text>
+  <circle cx="678" cy="574" r="10" class="accent"/>
+  <text x="700" y="582" class="text small">能力：产品判断 +8</text>
+
+  <rect x="1028" y="420" width="142" height="208" rx="12" class="panel"/>
+  <text x="1050" y="458" class="text title">系统</text>
+  <text x="1050" y="492" class="muted small">同步</text>
+  <text x="1050" y="528" class="muted small">备份</text>
+  <text x="1050" y="564" class="muted small">健康</text>
+  <text x="1050" y="600" class="muted small">指南</text>
+
+  <rect x="224" y="656" width="948" height="76" rx="12" class="panel2"/>
+  <text x="252" y="702" class="text body">设计原则：新增入口必须增强成长闭环，不能把周看板变回杂乱 Dashboard。</text>
+</svg>

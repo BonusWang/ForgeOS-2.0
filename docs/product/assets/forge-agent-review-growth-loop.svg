@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="560" viewBox="0 0 1180 560" role="img" aria-labelledby="title desc">
+  <title id="title">Forge-OS growth loop optimization sample</title>
+  <desc id="desc">A growth loop sample connecting capture, execution, review and growth evidence.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f2e8; }
+      .node { fill: #fffaf0; stroke: #8d7d64; stroke-width: 2; }
+      .node2 { fill: #eee5d4; stroke: #8d7d64; stroke-width: 2; }
+      .accent { fill: #9f2019; }
+      .text { fill: #171412; font-family: "Segoe UI", Arial, sans-serif; }
+      .muted { fill: #4f463d; font-family: "Segoe UI", Arial, sans-serif; }
+      .title { font-size: 28px; font-weight: 800; }
+      .body { font-size: 20px; }
+      .small { font-size: 16px; }
+      .arrow { stroke: #9f2019; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+      <polygon points="0 0, 12 4, 0 8" class="accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1180" height="560"/>
+  <text x="54" y="62" class="text title">最终建议：把 Forge-OS 的增长闭环补完整</text>
+  <text x="54" y="94" class="muted body">不是加更多模块，而是把混沌、行动、复盘和证据串成一条用户能每天走完的路。</text>
+
+  <rect x="64" y="170" width="210" height="120" rx="18" class="node"/>
+  <text x="92" y="214" class="text title">捕捉</text>
+  <text x="92" y="248" class="muted body">收集箱 / 灵感</text>
+  <text x="92" y="274" class="muted small">降低进入系统摩擦</text>
+
+  <rect x="348" y="170" width="210" height="120" rx="18" class="node"/>
+  <text x="376" y="214" class="text title">执行</text>
+  <text x="376" y="248" class="muted body">周看板 / 今日承诺</text>
+  <text x="376" y="274" class="muted small">把想法安排到行动</text>
+
+  <rect x="632" y="170" width="210" height="120" rx="18" class="node"/>
+  <text x="660" y="214" class="text title">复盘</text>
+  <text x="660" y="248" class="muted body">周复盘 / 每日反思</text>
+  <text x="660" y="274" class="muted small">把行动变成判断</text>
+
+  <rect x="916" y="170" width="210" height="120" rx="18" class="node"/>
+  <text x="944" y="214" class="text title">成长证据</text>
+  <text x="944" y="248" class="muted body">Objective / 能力 / 月报</text>
+  <text x="944" y="274" class="muted small">证明自己确实变了</text>
+
+  <path d="M274 230 H348" class="arrow"/>
+  <path d="M558 230 H632" class="arrow"/>
+  <path d="M842 230 H916" class="arrow"/>
+  <path d="M1021 290 C1021 420 169 420 169 290" class="arrow"/>
+
+  <rect x="64" y="384" width="336" height="96" rx="14" class="node2"/>
+  <text x="88" y="424" class="text body">收益 1：用户知道下一步该做什么</text>
+  <text x="88" y="454" class="muted small">早上收集/安排，白天推进，晚上反思，周末沉淀。</text>
+
+  <rect x="430" y="384" width="336" height="96" rx="14" class="node2"/>
+  <text x="454" y="424" class="text body">收益 2：功能边界更清楚</text>
+  <text x="454" y="454" class="muted small">模块按阶段解释，避免“又一个杂乱 Dashboard”。</text>
+
+  <rect x="796" y="384" width="336" height="96" rx="14" class="node2"/>
+  <text x="820" y="424" class="text body">收益 3：长期价值可被看见</text>
+  <text x="820" y="454" class="muted small">复盘和完成结果进入成长证据，支撑月度报告。</text>
+</svg>

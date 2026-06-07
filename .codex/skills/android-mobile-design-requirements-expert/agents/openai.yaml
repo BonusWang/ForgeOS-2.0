@@ -1,0 +1,4 @@
+interface:
+  display_name: "安卓移动端设计需求专家"
+  short_description: "安卓需求分析、Material You 设计与兼容性评审"
+  default_prompt: "Use $android-mobile-design-requirements-expert to review an Android product requirement and produce actionable design decisions."

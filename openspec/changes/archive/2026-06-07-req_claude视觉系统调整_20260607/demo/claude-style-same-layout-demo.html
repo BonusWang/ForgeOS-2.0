@@ -1,0 +1,846 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Forge-OS Claude Style Demo</title>
+    <style>
+      :root {
+        --bg-primary: #faf9f5;
+        --bg-secondary: #ffffff;
+        --bg-tertiary: #f5f0e8;
+        --surface-card: #efe9de;
+        --surface-strong: #e8e0d2;
+        --surface-dark: #181715;
+        --surface-dark-elevated: #252320;
+        --surface-dark-soft: #1f1e1b;
+        --text-primary: #141413;
+        --text-secondary: #3d3d3a;
+        --text-muted: #6c6a64;
+        --text-soft: #8e8b82;
+        --border-primary: #e6dfd8;
+        --border-soft: #ebe6df;
+        --border-hover: #cc785c;
+        --accent-gold: #cc785c;
+        --accent-active: #a9583e;
+        --accent-success: #5db872;
+        --accent-danger: #c64545;
+        --on-accent: #ffffff;
+        --on-dark: #faf9f5;
+        --on-dark-soft: #a09d96;
+        --font-display: "Cormorant Garamond", "EB Garamond", Georgia, "Times New Roman", serif;
+        --font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+        --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 32px;
+        --space-7: 48px;
+        --duration-instant: 120ms ease;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100dvh;
+        margin: 0;
+        background:
+          linear-gradient(180deg, rgba(245, 240, 232, 0.92), rgba(250, 249, 245, 0) 360px),
+          var(--bg-primary);
+        color: var(--text-primary);
+        font-family: var(--font-sans);
+        font-size: 16px;
+        line-height: 1.55;
+      }
+
+      button,
+      input,
+      textarea {
+        font: inherit;
+      }
+
+      button {
+        border: 0;
+      }
+
+      .app-shell {
+        display: grid;
+        min-height: 100dvh;
+        grid-template-columns: 248px minmax(0, 1fr);
+      }
+
+      .app-rail {
+        position: sticky;
+        top: 0;
+        display: flex;
+        height: 100dvh;
+        flex-direction: column;
+        gap: var(--space-5);
+        border-right: 1px solid var(--border-primary);
+        background: rgba(250, 249, 245, 0.9);
+        padding: var(--space-5) var(--space-4);
+        backdrop-filter: saturate(120%) blur(14px);
+      }
+
+      .app-rail-brand {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        min-width: 0;
+        padding: 0 var(--space-1);
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        border: 1px solid var(--border-primary);
+        border-radius: 8px;
+        background: var(--surface-card);
+        color: var(--accent-active);
+        font-family: var(--font-display);
+        font-size: 24px;
+        line-height: 1;
+      }
+
+      .brand-name {
+        margin: 0;
+        color: var(--text-primary);
+        font-family: var(--font-display);
+        font-size: 28px;
+        font-weight: 400;
+        line-height: 1.05;
+      }
+
+      .brand-slogan {
+        margin: 1px 0 0;
+        color: var(--text-muted);
+        font-size: 12px;
+        line-height: 1.25;
+      }
+
+      .app-rail-section,
+      .app-rail-bottom {
+        display: grid;
+        gap: 6px;
+      }
+
+      .app-rail-bottom {
+        gap: var(--space-4);
+        margin-top: auto;
+      }
+
+      .app-rail-section-title {
+        margin: 0 var(--space-2) var(--space-1);
+        color: var(--text-soft);
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .app-rail-button {
+        display: grid;
+        min-height: 38px;
+        grid-template-columns: 28px minmax(0, 1fr) auto;
+        align-items: center;
+        gap: var(--space-2);
+        border: 1px solid transparent;
+        border-radius: 8px;
+        background: transparent;
+        color: var(--text-muted);
+        padding: 8px 10px;
+        text-align: left;
+        transition: background-color var(--duration-instant), border-color var(--duration-instant), color var(--duration-instant);
+      }
+
+      .app-rail-button:hover {
+        border-color: var(--border-primary);
+        background: rgba(255, 255, 255, 0.62);
+        color: var(--text-primary);
+      }
+
+      .app-rail-button[aria-current="page"],
+      .app-rail-button[aria-pressed="true"] {
+        border-color: rgba(204, 120, 92, 0.3);
+        background: rgba(204, 120, 92, 0.1);
+        color: var(--accent-active);
+      }
+
+      .app-rail-icon,
+      .app-rail-index {
+        color: inherit;
+        font-size: 13px;
+        line-height: 1;
+      }
+
+      .app-rail-label {
+        min-width: 0;
+        overflow: hidden;
+        color: inherit;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .app-rail-badge {
+        border-radius: 999px;
+        background: var(--surface-card);
+        color: var(--text-primary);
+        padding: 3px 8px;
+        font-size: 12px;
+        line-height: 1;
+      }
+
+      .app-content-frame {
+        min-width: 0;
+      }
+
+      .app-main {
+        min-width: 0;
+        padding: var(--space-6);
+      }
+
+      .workspace-page {
+        width: 100%;
+        max-width: 1680px;
+        min-width: 0;
+        margin: 0;
+      }
+
+      .font-caption {
+        color: var(--text-muted);
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      .font-h3 {
+        color: var(--accent-gold);
+        font-family: var(--font-display);
+        font-size: 30px;
+        font-weight: 400;
+        line-height: 1.15;
+      }
+
+      .dashboard-page > .font-caption {
+        max-width: 1040px;
+        margin: 0 auto var(--space-4);
+        border-bottom: 1px dashed var(--border-primary);
+        padding: var(--space-2) var(--space-4);
+        text-align: center;
+      }
+
+      .dashboard-command-grid {
+        display: grid;
+        min-width: 0;
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-5);
+        align-items: start;
+      }
+
+      .dashboard-primary-canvas {
+        min-width: 0;
+      }
+
+      .dashboard-board-section {
+        min-width: 0;
+        margin-bottom: var(--space-5);
+      }
+
+      .task-board-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: var(--space-4);
+        margin-bottom: var(--space-3);
+      }
+
+      .task-board-toolbar-button,
+      .btn-invert {
+        min-height: 36px;
+        border: 1px solid var(--border-primary);
+        border-radius: 8px;
+        background: var(--bg-primary);
+        color: var(--text-secondary);
+        padding: 0 var(--space-3);
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1;
+        white-space: nowrap;
+        transition: border-color var(--duration-instant), color var(--duration-instant), background-color var(--duration-instant);
+      }
+
+      .task-board-toolbar-button:hover,
+      .btn-invert:hover {
+        border-color: rgba(204, 120, 92, 0.5);
+        background: rgba(204, 120, 92, 0.08);
+        color: var(--accent-active);
+      }
+
+      .task-board-scroll-shell {
+        min-width: 0;
+        position: relative;
+      }
+
+      .task-board-scroll {
+        display: flex;
+        gap: var(--space-2);
+        overflow-x: auto;
+        padding-bottom: var(--space-3);
+      }
+
+      .task-column,
+      .okr-inbox-column,
+      .ascii-box {
+        overflow: hidden;
+        border: 1px solid var(--border-primary);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.58);
+      }
+
+      .task-column,
+      .okr-inbox-column {
+        display: flex;
+        flex: 0 0 200px;
+        min-width: 200px;
+        min-height: 360px;
+        flex-direction: column;
+      }
+
+      .task-column-header,
+      .ascii-box-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-2);
+        border-bottom: 1px solid var(--border-primary);
+        background: rgba(245, 240, 232, 0.78);
+        color: var(--text-primary);
+        padding: 10px 12px;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .task-column-content,
+      .ascii-box-content {
+        display: grid;
+        align-content: start;
+        gap: var(--space-2);
+        padding: var(--space-3);
+      }
+
+      .task-card {
+        border: 1px solid var(--border-soft);
+        border-radius: 8px;
+        background: var(--bg-primary);
+        padding: var(--space-3);
+      }
+
+      .task-card strong {
+        display: block;
+        color: var(--text-primary);
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.35;
+      }
+
+      .task-card span {
+        display: block;
+        margin-top: 6px;
+        color: var(--text-muted);
+        font-size: 12px;
+        line-height: 1.3;
+      }
+
+      .task-card.is-done {
+        background: var(--surface-card);
+      }
+
+      .okr-inbox-column {
+        background: var(--surface-dark);
+        color: var(--on-dark);
+      }
+
+      .okr-inbox-column .task-column-header {
+        border-bottom-color: rgba(255, 255, 255, 0.1);
+        background: var(--surface-dark-elevated);
+        color: var(--on-dark);
+      }
+
+      .okr-inbox-column .task-card {
+        border-color: rgba(255, 255, 255, 0.1);
+        background: var(--surface-dark-soft);
+      }
+
+      .okr-inbox-column .task-card strong {
+        color: var(--on-dark);
+      }
+
+      .okr-inbox-column .task-card span {
+        color: var(--on-dark-soft);
+      }
+
+      .dashboard-today-strip,
+      .dashboard-support-grid {
+        display: grid;
+        align-items: start;
+        gap: var(--space-4);
+      }
+
+      .dashboard-today-strip {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        margin-bottom: var(--space-4);
+      }
+
+      .dashboard-support-grid {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      }
+
+      .dashboard-today-strip > *,
+      .dashboard-support-grid > * {
+        min-width: 0;
+      }
+
+      .dashboard-today-strip .ascii-box,
+      .dashboard-support-grid .ascii-box {
+        height: 100%;
+      }
+
+      .dashboard-status-card {
+        min-height: 136px;
+      }
+
+      .stat-line {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: var(--space-3);
+      }
+
+      .stat-number {
+        color: var(--text-primary);
+        font-family: var(--font-display);
+        font-size: 34px;
+        font-weight: 400;
+        line-height: 1.1;
+      }
+
+      .muted {
+        color: var(--text-muted);
+        font-size: 13px;
+      }
+
+      .progress-track {
+        overflow: hidden;
+        height: 8px;
+        margin-top: var(--space-3);
+        border-radius: 999px;
+        background: var(--surface-card);
+      }
+
+      .progress-fill {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: var(--accent-gold);
+      }
+
+      .reflection-preview,
+      .time-block-list,
+      .mood-grid,
+      .mini-list {
+        display: grid;
+        gap: var(--space-2);
+      }
+
+      .mini-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-3);
+        border-top: 1px solid var(--border-soft);
+        padding-top: var(--space-2);
+        color: var(--text-muted);
+        font-size: 13px;
+      }
+
+      .mini-row:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+
+      .mini-row strong {
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+
+      .input-line,
+      .note-field {
+        width: 100%;
+        min-height: 38px;
+        border: 1px solid var(--border-primary);
+        border-radius: 8px;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        padding: 9px 11px;
+      }
+
+      .note-field {
+        min-height: 72px;
+        resize: vertical;
+      }
+
+      .module-dark {
+        border-color: transparent;
+        background: var(--surface-dark);
+        color: var(--on-dark);
+      }
+
+      .module-dark .ascii-box-title {
+        border-bottom-color: rgba(255, 255, 255, 0.1);
+        background: var(--surface-dark-elevated);
+        color: var(--on-dark);
+      }
+
+      .module-dark .ascii-box-content,
+      .module-dark .muted {
+        color: var(--on-dark-soft);
+      }
+
+      .module-dark .mini-row {
+        border-top-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .module-dark .mini-row strong,
+      .module-dark .stat-number {
+        color: var(--on-dark);
+      }
+
+      @media (min-width: 1280px) {
+        .dashboard-today-strip:has(.dashboard-status-card--time-block):has(.dashboard-status-card--mood) {
+          grid-template-areas: "progress reflection time mood";
+          grid-template-columns:
+            minmax(220px, 0.8fr)
+            minmax(320px, 1.15fr)
+            minmax(320px, 1.15fr)
+            minmax(420px, 1.35fr);
+          gap: var(--space-3);
+        }
+
+        .dashboard-status-card--progress {
+          grid-area: progress;
+        }
+
+        .dashboard-status-card--reflection {
+          grid-area: reflection;
+        }
+
+        .dashboard-status-card--time-block {
+          grid-area: time;
+        }
+
+        .dashboard-status-card--mood {
+          grid-area: mood;
+        }
+      }
+
+      @media (max-width: 1180px) {
+        .app-shell {
+          grid-template-columns: 1fr;
+        }
+
+        .app-rail {
+          position: static;
+          height: auto;
+          border-right: 0;
+          border-bottom: 1px solid var(--border-primary);
+        }
+
+        .app-rail-section {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .app-rail-bottom {
+          margin-top: 0;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .app-main {
+          padding: var(--space-4);
+        }
+
+        .task-board-toolbar {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .dashboard-today-strip,
+        .dashboard-support-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .app-rail-section {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      :focus-visible {
+        outline: 2px solid rgba(204, 120, 92, 0.58);
+        outline-offset: 3px;
+      }
+
+      .task-board-toolbar-button:active,
+      .app-rail-button:active,
+      .btn-invert:active {
+        transform: translateY(1px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="app-rail" aria-label="Forge-OS navigation">
+        <div class="app-rail-brand">
+          <span class="brand-mark" aria-hidden="true">F</span>
+          <div>
+            <p class="brand-name">Forge-OS</p>
+            <p class="brand-slogan">Forge yourself · 自己锻造自己</p>
+          </div>
+        </div>
+
+        <nav class="app-rail-section" aria-label="页面">
+          <p class="app-rail-section-title">页面</p>
+          <button class="app-rail-button" type="button" aria-current="page">
+            <span class="app-rail-icon">▦</span>
+            <span class="app-rail-label">周看板</span>
+            <span class="app-rail-badge">01</span>
+          </button>
+          <button class="app-rail-button" type="button">
+            <span class="app-rail-icon">↺</span>
+            <span class="app-rail-label">周复盘</span>
+            <span class="app-rail-badge">02</span>
+          </button>
+          <button class="app-rail-button" type="button">
+            <span class="app-rail-icon">◧</span>
+            <span class="app-rail-label">反思库</span>
+            <span class="app-rail-badge">03</span>
+          </button>
+          <button class="app-rail-button" type="button">
+            <span class="app-rail-icon">◎</span>
+            <span class="app-rail-label">月度 OKR</span>
+            <span class="app-rail-badge">04</span>
+          </button>
+        </nav>
+
+        <div class="app-rail-bottom">
+          <div class="app-rail-section" aria-label="系统">
+            <p class="app-rail-section-title">系统</p>
+            <button class="app-rail-button" type="button">
+              <span class="app-rail-icon">⚙</span>
+              <span class="app-rail-label">系统</span>
+            </button>
+          </div>
+          <div class="app-rail-section" aria-label="工具">
+            <p class="app-rail-section-title">工具</p>
+            <button class="app-rail-button" type="button" aria-pressed="true">
+              <span class="app-rail-index">C</span>
+              <span class="app-rail-label">风格</span>
+              <span class="app-rail-badge">Claude</span>
+            </button>
+            <button class="app-rail-button" type="button">
+              <span class="app-rail-index">⊕</span>
+              <span class="app-rail-label">模块</span>
+            </button>
+            <button class="app-rail-button" type="button">
+              <span class="app-rail-index">◑</span>
+              <span class="app-rail-label">主题</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <div class="app-content-frame">
+        <main class="app-main">
+          <div class="workspace-page dashboard-page">
+            <div class="font-caption">今天别和自己讲价。做完一件，世界就少一点噪音。</div>
+
+            <div class="dashboard-command-grid">
+              <div class="dashboard-primary-canvas">
+                <section class="dashboard-board-section" aria-label="本周任务看板">
+                  <div class="task-board-toolbar">
+                    <button class="task-board-toolbar-button" type="button">上一周</button>
+                    <span class="font-h3 task-board-range">2026年6月1日 至 6月7日</span>
+                    <button class="task-board-toolbar-button" type="button">下一周</button>
+                    <button class="task-board-toolbar-button" type="button">本周</button>
+                  </div>
+
+                  <div class="task-board-scroll-shell">
+                    <div class="task-board-scroll" aria-label="任务列">
+                      <section class="task-column">
+                        <div class="task-column-header"><span>收纳箱</span><span>3</span></div>
+                        <div class="task-column-content">
+                          <article class="task-card"><strong>整理同步策略备注</strong><span>待排期 · 系统</span></article>
+                          <article class="task-card"><strong>检查模块开关状态</strong><span>待排期 · 模块</span></article>
+                          <article class="task-card"><strong>归档移动端测试记录</strong><span>待排期 · 文档</span></article>
+                        </div>
+                      </section>
+
+                      <section class="task-column">
+                        <div class="task-column-header"><span>周一</span><span>2</span></div>
+                        <div class="task-column-content">
+                          <article class="task-card is-done"><strong>完成冒烟测试记录</strong><span>已完成 · Android</span></article>
+                          <article class="task-card"><strong>梳理数据备份状态</strong><span>进行中 · 系统</span></article>
+                        </div>
+                      </section>
+
+                      <section class="task-column">
+                        <div class="task-column-header"><span>周二</span><span>1</span></div>
+                        <div class="task-column-content">
+                          <article class="task-card"><strong>沉淀复盘草稿</strong><span>反思 · 30 分钟</span></article>
+                        </div>
+                      </section>
+
+                      <section class="task-column">
+                        <div class="task-column-header"><span>周三</span><span>0</span></div>
+                        <div class="task-column-content">
+                          <article class="task-card"><strong>空列保持原有占位</strong><span>不改变列结构</span></article>
+                        </div>
+                      </section>
+
+                      <section class="task-column">
+                        <div class="task-column-header"><span>周四</span><span>2</span></div>
+                        <div class="task-column-content">
+                          <article class="task-card"><strong>清理任务池</strong><span>执行 · 20 分钟</span></article>
+                          <article class="task-card"><strong>检查 UI 回归点</strong><span>验证 · 45 分钟</span></article>
+                        </div>
+                      </section>
+
+                      <section class="task-column">
+                        <div class="task-column-header"><span>周五</span><span>1</span></div>
+                        <div class="task-column-content">
+                          <article class="task-card"><strong>更新需求状态</strong><span>OpenSpec · 15 分钟</span></article>
+                        </div>
+                      </section>
+
+                      <section class="task-column">
+                        <div class="task-column-header"><span>周六</span><span>1</span></div>
+                        <div class="task-column-content">
+                          <article class="task-card"><strong>回看本周成果</strong><span>周复盘 · 晚上</span></article>
+                        </div>
+                      </section>
+
+                      <section class="task-column">
+                        <div class="task-column-header"><span>周日</span><span>1</span></div>
+                        <div class="task-column-content">
+                          <article class="task-card"><strong>安排下周主线</strong><span>计划 · 20 分钟</span></article>
+                        </div>
+                      </section>
+
+                      <section class="okr-inbox-column">
+                        <div class="task-column-header"><span>OKR 收纳</span><span>2</span></div>
+                        <div class="task-column-content">
+                          <article class="task-card"><strong>推进移动端闭环</strong><span>KR · 本月</span></article>
+                          <article class="task-card"><strong>完善同步引擎验证</strong><span>KR · 本月</span></article>
+                        </div>
+                      </section>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="dashboard-today-strip" aria-label="今日执行">
+                  <article class="ascii-box dashboard-status-card dashboard-status-card--progress">
+                    <div class="ascii-box-title"><span>今日进度</span><span>73%</span></div>
+                    <div class="ascii-box-content">
+                      <div class="stat-line"><span class="stat-number">8/11</span><span class="muted">已完成</span></div>
+                      <div class="progress-track" aria-hidden="true"><span class="progress-fill" style="width: 73%"></span></div>
+                    </div>
+                  </article>
+
+                  <article class="ascii-box dashboard-status-card dashboard-status-card--reflection">
+                    <div class="ascii-box-title"><span>每日反思</span><span>已保存</span></div>
+                    <div class="ascii-box-content reflection-preview">
+                      <div class="mini-row"><strong>控制感</strong><span>7/10</span></div>
+                      <div class="mini-row"><strong>阻塞</strong><span>1 个</span></div>
+                      <button class="btn-invert" type="button">继续编辑</button>
+                    </div>
+                  </article>
+
+                  <article class="ascii-box dashboard-status-card dashboard-status-card--time-block">
+                    <div class="ascii-box-title"><span>时间块</span><span>3</span></div>
+                    <div class="ascii-box-content time-block-list">
+                      <div class="mini-row"><strong>09:30</strong><span>同步策略</span></div>
+                      <div class="mini-row"><strong>14:00</strong><span>任务池清理</span></div>
+                      <div class="mini-row"><strong>20:30</strong><span>周复盘草稿</span></div>
+                    </div>
+                  </article>
+
+                  <article class="ascii-box dashboard-status-card dashboard-status-card--mood">
+                    <div class="ascii-box-title"><span>情绪追踪</span><span>已记录</span></div>
+                    <div class="ascii-box-content mood-grid">
+                      <div class="mini-row"><strong>心境</strong><span>7/10</span></div>
+                      <div class="mini-row"><strong>能量</strong><span>6/10</span></div>
+                      <textarea class="note-field" aria-label="情绪备注">上午清醒，下午需要减少切换。</textarea>
+                    </div>
+                  </article>
+                </section>
+
+                <section class="dashboard-support-grid" aria-label="辅助沉淀">
+                  <article class="ascii-box module-dark">
+                    <div class="ascii-box-title"><span>我的原则</span><span>01</span></div>
+                    <div class="ascii-box-content">
+                      <span class="stat-number">先完成</span>
+                      <p class="muted">再完美。今天只需要把最重要的一块推进到底。</p>
+                    </div>
+                  </article>
+
+                  <article class="ascii-box">
+                    <div class="ascii-box-title"><span>每日真相</span><span>系统</span></div>
+                    <div class="ascii-box-content">
+                      <p class="muted">你不是缺计划，你是缺一个不再让步的执行边界。</p>
+                    </div>
+                  </article>
+
+                  <article class="ascii-box">
+                    <div class="ascii-box-title"><span>日历</span><span>6月</span></div>
+                    <div class="ascii-box-content mini-list">
+                      <div class="mini-row"><strong>今天</strong><span>3 个时间块</span></div>
+                      <div class="mini-row"><strong>本周</strong><span>7 天任务列</span></div>
+                    </div>
+                  </article>
+
+                  <article class="ascii-box">
+                    <div class="ascii-box-title"><span>娱乐</span><span>1</span></div>
+                    <div class="ascii-box-content">
+                      <input class="input-line" value="散步 20 分钟" aria-label="娱乐记录" />
+                    </div>
+                  </article>
+
+                  <article class="ascii-box">
+                    <div class="ascii-box-title"><span>习惯追踪</span><span>5/7</span></div>
+                    <div class="ascii-box-content">
+                      <div class="progress-track" aria-hidden="true"><span class="progress-fill" style="width: 71%"></span></div>
+                      <p class="muted">阅读、运动、早睡、复盘、整理已打卡。</p>
+                    </div>
+                  </article>
+
+                  <article class="ascii-box">
+                    <div class="ascii-box-title"><span>灵感库</span><span>12</span></div>
+                    <div class="ascii-box-content mini-list">
+                      <div class="mini-row"><strong>待转任务</strong><span>4</span></div>
+                      <div class="mini-row"><strong>已沉淀</strong><span>8</span></div>
+                    </div>
+                  </article>
+                </section>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

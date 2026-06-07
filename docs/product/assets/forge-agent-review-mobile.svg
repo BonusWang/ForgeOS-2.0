@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="760" viewBox="0 0 960 760" role="img" aria-labelledby="title desc">
+  <title id="title">Forge-OS mobile optimization sample</title>
+  <desc id="desc">A mobile sample showing today, progress, capture and system sections with recommended boundaries.</desc>
+  <defs>
+    <style>
+      .bg { fill: #14100c; }
+      .phone { fill: #1c1610; stroke: #3d3528; stroke-width: 3; }
+      .panel { fill: #241e16; stroke: #3d3528; stroke-width: 2; }
+      .panel2 { fill: #2c261e; stroke: #504838; stroke-width: 2; }
+      .accent { fill: #a08040; }
+      .text { fill: #b0a080; font-family: "Segoe UI", Arial, sans-serif; }
+      .muted { fill: #7a7060; font-family: "Segoe UI", Arial, sans-serif; }
+      .title { font-size: 26px; font-weight: 700; }
+      .body { font-size: 20px; }
+      .small { font-size: 16px; }
+      .line { stroke: #a08040; stroke-width: 2; fill: none; }
+    </style>
+  </defs>
+  <rect class="bg" width="960" height="760"/>
+  <rect x="72" y="40" width="324" height="680" rx="34" class="phone"/>
+  <rect x="102" y="86" width="264" height="94" rx="14" class="panel"/>
+  <text x="124" y="123" class="text title">今日锻造台</text>
+  <text x="124" y="153" class="muted small">只放今天要推进的主线</text>
+  <rect x="102" y="200" width="264" height="138" rx="14" class="panel"/>
+  <text x="124" y="236" class="text title">今日承诺</text>
+  <text x="124" y="266" class="muted small">最多三件事</text>
+  <rect x="124" y="286" width="210" height="28" rx="6" class="panel2"/>
+  <text x="136" y="306" class="text small">完成新版评审稿</text>
+
+  <rect x="102" y="360" width="264" height="150" rx="14" class="panel"/>
+  <text x="124" y="396" class="text title">推进</text>
+  <text x="124" y="426" class="muted small">周任务、收纳箱、轻量周复盘</text>
+  <rect x="124" y="450" width="72" height="44" rx="8" class="panel2"/>
+  <text x="142" y="478" class="text small">周一</text>
+  <rect x="212" y="450" width="72" height="44" rx="8" class="panel2"/>
+  <text x="230" y="478" class="text small">周二</text>
+
+  <rect x="102" y="532" width="264" height="90" rx="14" class="panel"/>
+  <text x="124" y="568" class="text title">记录</text>
+  <text x="124" y="598" class="muted small">灵感 / 反思，不承接复杂澄清</text>
+  <rect x="102" y="642" width="264" height="46" rx="16" class="panel2"/>
+  <text x="126" y="672" class="text small">今日</text>
+  <text x="184" y="672" class="muted small">推进</text>
+  <text x="248" y="672" class="muted small">记录</text>
+  <text x="312" y="672" class="muted small">系统</text>
+
+  <rect x="472" y="72" width="350" height="116" rx="16" class="panel"/>
+  <text x="502" y="112" class="text title">移动端边界</text>
+  <text x="502" y="146" class="muted body">移动端负责低摩擦输入和推进，不承接完整桌面工作台。</text>
+
+  <rect x="472" y="220" width="350" height="94" rx="14" class="panel2"/>
+  <text x="502" y="256" class="text body">新增：记录页可快速保存收集项</text>
+  <text x="502" y="286" class="muted small">保存到灵感或反思，不做复杂目标澄清</text>
+
+  <rect x="472" y="346" width="350" height="94" rx="14" class="panel2"/>
+  <text x="502" y="382" class="text body">保留：推进页处理收纳箱</text>
+  <text x="502" y="412" class="muted small">安排到日期、编辑、删除、完成</text>
+
+  <rect x="472" y="472" width="350" height="94" rx="14" class="panel2"/>
+  <text x="502" y="508" class="text body">新增：系统页展示健康摘要</text>
+  <text x="502" y="538" class="muted small">本地、同步、冲突、备份、版本</text>
+
+  <rect x="472" y="598" width="350" height="94" rx="14" class="panel2"/>
+  <text x="502" y="634" class="text body">暂缓：复杂模块重排</text>
+  <text x="502" y="664" class="muted small">移动端不做桌面模块管理的完整复制</text>
+
+  <path d="M396 576 C430 576 438 576 472 264" class="line"/>
+  <path d="M396 438 C430 438 438 438 472 392" class="line"/>
+  <path d="M396 665 C430 665 438 665 472 520" class="line"/>
+</svg>
