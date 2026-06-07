@@ -14,7 +14,7 @@ test('Android project bundles Vite assets through a WebView app shell', () => {
   const buildScript = read('scripts/run-android-build.mjs');
 
   assert.match(appGradle, new RegExp(`versionName '${pkg.version}'`));
-  assert.match(appGradle, /versionCode 8/);
+  assert.match(appGradle, /versionCode 20/);
   assert.match(pkg.scripts['android:build'], /run-android-build\.mjs/);
   assert.match(pkg.scripts['android:install'], /run-android-install\.mjs/);
   assert.match(buildScript, /JAVA_HOME/);

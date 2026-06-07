@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-06-07
+
+### Added
+- Forge OS 2.0 作为独立大版本首发，当前发布版本从 `v2.0` 开始计算。
+- 新增 `docs/releases/v2.0.md`，集中说明 2.0 的产品定位、发布范围和验证记录。
+
+### Changed
+- 工程版本升级到 `2.0.0`，Android 版本同步升级到 `versionName 2.0.0`、`versionCode 20`。
+- README 补充 Forge OS 2.0 独立大版本定位和当前发布版本说明。
+
+### Fixed
+- 保留桌面端周复盘保存后的“周复盘已保存”摘要反馈，并作为 2.0 首发体验的一部分发布。
+
 ## [1.0.8] - 2026-06-07
 
 ### Changed
