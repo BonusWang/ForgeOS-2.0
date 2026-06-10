@@ -277,6 +277,51 @@ test('V3 runner reports unresolved conflict and preserves local state', async ()
   }
 });
 
+test('V3 runner applies non-conflicting remote entities even when another field conflicts', async () => {
+  const base = await envelopeFromState(baseState(), 'browser', '2026-06-06T08:00:00.000Z');
+  const localState = {
+    ...baseState(),
+    reflections: [{ ...baseReflection, answers: { note: 'Local' } }],
+  };
+  const remoteTask: Task = {
+    id: 'task-remote',
+    content: 'Remote safe task',
+    column: 'SAT',
+    date: '2026-06-06',
+    status: 'active',
+    order: 1,
+  };
+  const remote = await envelopeFromState(
+    {
+      ...baseState(),
+      tasks: [baseTask, remoteTask],
+      reflections: [{ ...baseReflection, answers: { note: 'Remote' } }],
+    },
+    'android',
+    '2026-06-06T09:05:00.000Z'
+  );
+  const { client } = fakeClient(remote);
+
+  const result = await runV3Sync({
+    config,
+    client,
+    key: v3SyncObjectKey(config),
+    appVersion: '1.0.5',
+    deviceId: 'browser',
+    state: localState,
+    baseEnvelope: base,
+    now: '2026-06-06T10:00:00.000Z',
+    hasLocalChanges: true,
+  });
+
+  assert.equal(result.phase, 'conflict');
+  if (result.phase === 'conflict') {
+    assert.equal(result.state.reflections[0].answers.note, 'Local');
+    assert.equal(result.state.tasks.some((task) => task.id === 'task-remote'), true);
+    assert.equal(result.baseEnvelope.entities.tasks['task-remote'].value.content, 'Remote safe task');
+  }
+});
+
 test('V3 runner initializes clean V3 data without checking retired main objects', async () => {
   const uploads: V3SyncEnvelope[] = [];
   const client: V3SyncClient = {

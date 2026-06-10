@@ -1,4 +1,4 @@
-import type { Reflection } from '../../types';
+import type { Reflection, Task } from '../../types';
 import { createV3SyncedEntity } from './v3EntityAdapter.ts';
 import { cloneV3SyncValue, v3SyncValuesEqual } from './v3SyncEnvelope.ts';
 import {
@@ -298,6 +298,57 @@ const mergeReflectionValue = (
   };
 };
 
+const latestTimestamp = (left?: string, right?: string): string | undefined => {
+  if (!left) return right;
+  if (!right) return left;
+  return left >= right ? left : right;
+};
+
+const mergeTaskValue = (
+  baseValue: Task | undefined,
+  localEntity: V3SyncedEntity<Task>,
+  remoteEntity: V3SyncedEntity<Task>,
+  context: MergeContext,
+  baseRevision?: string
+): MergeValueResult<Task> => {
+  const objectMerge = mergeObjectFields(baseValue, localEntity, remoteEntity, context, [
+    'completedAt',
+  ], baseRevision);
+  const localCompleted = localEntity.value.status === 'completed';
+  const remoteCompleted = remoteEntity.value.status === 'completed';
+
+  if (localCompleted && remoteCompleted) {
+    const completedAt = latestTimestamp(localEntity.value.completedAt, remoteEntity.value.completedAt);
+    return {
+      value: {
+        ...objectMerge.value,
+        ...(completedAt ? { completedAt } : {}),
+      },
+      conflicts: objectMerge.conflicts,
+    };
+  }
+
+  const completedAtMerge = mergeFieldValue(
+    baseValue?.completedAt,
+    localEntity.value.completedAt,
+    remoteEntity.value.completedAt,
+    localEntity as V3SyncedEntity<unknown>,
+    remoteEntity as V3SyncedEntity<unknown>,
+    context,
+    'completedAt',
+    baseRevision
+  );
+  const value = { ...objectMerge.value };
+  if (completedAtMerge.value !== undefined) {
+    value.completedAt = completedAtMerge.value as string;
+  }
+
+  return {
+    value,
+    conflicts: [...objectMerge.conflicts, ...completedAtMerge.conflicts],
+  };
+};
+
 const chooseUpdatedBy = <T,>(
   localEntity: V3SyncedEntity<T>,
   remoteEntity: V3SyncedEntity<T>
@@ -424,6 +475,14 @@ const mergeEntity = <T,>(
           context,
           baseRevision
         ) as unknown as MergeValueResult<T>)
+      : collection === 'tasks'
+        ? (mergeTaskValue(
+            baseValue as Task | undefined,
+            localEntity as V3SyncedEntity<Task>,
+            remoteEntity as V3SyncedEntity<Task>,
+            context,
+            baseRevision
+          ) as unknown as MergeValueResult<T>)
       : mergeObjectFields(baseValue, localEntity, remoteEntity, context, [], baseRevision);
 
   return {
@@ -561,7 +620,7 @@ export const mergeV3SyncDocuments = ({
   return {
     entities,
     tombstones: mergeTombstones(existingTombstones, tombstones),
-    conflicts: mergeConflicts(base?.conflicts, local.conflicts, remote.conflicts, conflicts),
+    conflicts: mergeConflicts(conflicts),
     autoMerged,
   };
 };

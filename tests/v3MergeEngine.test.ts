@@ -4,7 +4,7 @@ import type { AppState, Reflection, Task } from '../src/types/index.ts';
 import { createV3SyncEntitiesFromAppState } from '../src/sync/v3/v3EntityAdapter.ts';
 import { createV3SyncEnvelope } from '../src/sync/v3/v3SyncEnvelope.ts';
 import { mergeV3SyncDocuments } from '../src/sync/v3/v3MergeEngine.ts';
-import type { V3SyncEnvelope, V3SyncOwner } from '../src/sync/v3/v3SyncTypes.ts';
+import type { V3SyncConflict, V3SyncEnvelope, V3SyncOwner } from '../src/sync/v3/v3SyncTypes.ts';
 
 const owner: V3SyncOwner = {
   namespace: 'Forge-OS_Base/v2.0/Domain1127/profiles/default',
@@ -260,4 +260,78 @@ test('V3 merge does not duplicate an existing unresolved conflict', async () => 
   assert.equal(first.conflicts.length, 1);
   assert.equal(second.conflicts.length, 1);
   assert.equal(second.conflicts[0].id, first.conflicts[0].id);
+});
+
+test('V3 merge auto-merges completed tasks when only completedAt differs', async () => {
+  const base = await envelopeFromState(baseState(), 'browser', '2026-06-06T08:00:00.000Z');
+  const local = await envelopeFromState(
+    {
+      ...baseState(),
+      tasks: [
+        {
+          ...baseTask,
+          status: 'completed',
+          completedAt: '2026-06-06T09:00:00.000Z',
+        },
+      ],
+    },
+    'browser',
+    '2026-06-06T09:00:00.000Z'
+  );
+  const remote = await envelopeFromState(
+    {
+      ...baseState(),
+      tasks: [
+        {
+          ...baseTask,
+          status: 'completed',
+          completedAt: '2026-06-06T09:05:00.000Z',
+        },
+      ],
+    },
+    'android',
+    '2026-06-06T09:05:00.000Z'
+  );
+
+  const merged = mergeV3SyncDocuments({
+    base,
+    local,
+    remote,
+    deviceId: 'browser',
+    now: '2026-06-06T10:00:00.000Z',
+  });
+
+  assert.equal(merged.conflicts.length, 0);
+  assert.equal(merged.entities.tasks['task-1'].value.status, 'completed');
+  assert.equal(merged.entities.tasks['task-1'].value.completedAt, '2026-06-06T09:05:00.000Z');
+});
+
+test('V3 merge drops stale conflicts that current merge no longer reproduces', async () => {
+  const staleConflict: V3SyncConflict = {
+    id: 'field:tasks:task-1:completedAt',
+    kind: 'field',
+    collection: 'tasks',
+    entityKey: 'task-1',
+    field: 'completedAt',
+    localValue: '2026-06-06T09:00:00.000Z',
+    remoteValue: '2026-06-06T09:05:00.000Z',
+  };
+  const base = await envelopeFromState(
+    baseState(),
+    'browser',
+    '2026-06-06T08:00:00.000Z',
+    { tombstones: [], conflicts: [staleConflict] }
+  );
+  const local = await envelopeFromState(baseState(), 'browser', '2026-06-06T09:00:00.000Z');
+  const remote = await envelopeFromState(baseState(), 'android', '2026-06-06T09:05:00.000Z');
+
+  const merged = mergeV3SyncDocuments({
+    base,
+    local,
+    remote,
+    deviceId: 'browser',
+    now: '2026-06-06T10:00:00.000Z',
+  });
+
+  assert.equal(merged.conflicts.length, 0);
 });

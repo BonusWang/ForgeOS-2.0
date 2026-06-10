@@ -194,7 +194,7 @@ export const runV3Sync = async ({
       return {
         phase: 'conflict',
         revision: mergedEnvelope.revision,
-        state,
+        state: restoreAppStateFromV3SyncEntities(state, mergedEnvelope.entities),
         baseEnvelope: mergedEnvelope,
         conflicts: merged.conflicts,
         autoMerged: merged.autoMerged,
