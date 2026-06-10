@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-06-10
+
+### Added
+- 新增 Multica 自动化研发协作流水线文档，沉淀 Forge-OS issue、agent、评审、测试和发布阶段的协作规则。
+
+### Changed
+- V3 同步在仍有字段冲突时也会把无冲突的远端实体合并进本地状态，避免安全变更被冲突阶段挡住。
+
+### Fixed
+- 修复浏览器和 Android 同时完成同一任务时仅 `completedAt` 不同却生成冲突的问题；现在会保留较新的完成时间并自动合并。
+- 修复已经不再复现的旧 V3 字段冲突会继续残留在同步 envelope 中的问题。
+
 ## [2.0.0] - 2026-06-07
 
 ### Added

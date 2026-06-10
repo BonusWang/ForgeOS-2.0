@@ -8,7 +8,7 @@
 
 一个本地优先的个人目标确认、每日推进与成长复盘系统。
 
-[![version](https://img.shields.io/badge/release-v2.0-E8D5B5?style=flat-square&labelColor=2f2a24&color=E8D5B5)](docs/releases/v2.0.md)
+[![version](https://img.shields.io/badge/release-v2.0.1-E8D5B5?style=flat-square&labelColor=2f2a24&color=E8D5B5)](docs/releases/v2.0.1.md)
 [![desktop](https://img.shields.io/badge/Desktop-Electron-7a96a6?style=flat-square&labelColor=2f2a24)](package.json)
 [![mobile](https://img.shields.io/badge/Mobile-Android_WebView-9b7b5d?style=flat-square&labelColor=2f2a24)](android/app/build.gradle)
 [![sync](https://img.shields.io/badge/Sync-COS_V3-5a6e5c?style=flat-square&labelColor=2f2a24)](src/sync/v3/v3SyncRunner.ts)
@@ -25,7 +25,7 @@
 
 Forge-OS 把周看板、每日反思、周复盘、月度 OKR、数据备份和 COS 同步放在同一套本地优先基板中。它不是一个更吵的待办软件，而是一套帮助你每天留下证据、每周收束卡点、每月修正目标的个人操作系统。
 
-当前发布版本：v2.0（工程版本 `2.0.0`）。Forge OS 2.0 从 v2.0 起作为独立大版本发布。发布说明见 [docs/releases/v2.0.md](docs/releases/v2.0.md)。
+当前发布版本：v2.0.1（工程版本 `2.0.1`）。Forge OS 2.0 从 v2.0 起作为独立大版本发布。发布说明见 [docs/releases/v2.0.1.md](docs/releases/v2.0.1.md)。
 
 ---
 
@@ -135,10 +135,10 @@ ForgeOS-2.0/
 <summary><strong>发布与版本</strong></summary>
 
 - 当前产品大版本：Forge OS 2.0。
-- 对外发布版本：v2.0。
-- 工程版本：`2.0.0`。
-- GitHub Release：`v2.0.0`，由 electron-builder 按 semver 自动发布桌面端资产。
-- Android 版本：`versionName 2.0.0`、`versionCode 20`。
+- 对外发布版本：v2.0.1。
+- 工程版本：`2.0.1`。
+- GitHub Release：`v2.0.1`，由 electron-builder 按 semver 自动发布桌面端资产。
+- Android 版本：`versionName 2.0.1`、`versionCode 21`。
 
 发布工作流位于 `.github/workflows/release.yml`，通过 `v*` tag 或手动 workflow dispatch 触发。
 
