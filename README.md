@@ -8,7 +8,7 @@
 
 一个本地优先的个人目标确认、每日推进与成长复盘系统。
 
-[![version](https://img.shields.io/badge/release-v2.0.1-E8D5B5?style=flat-square&labelColor=2f2a24&color=E8D5B5)](docs/releases/v2.0.1.md)
+[![version](https://img.shields.io/badge/release-v2.1.0-E8D5B5?style=flat-square&labelColor=2f2a24&color=E8D5B5)](docs/releases/v2.1.0.md)
 [![desktop](https://img.shields.io/badge/Desktop-Electron-7a96a6?style=flat-square&labelColor=2f2a24)](package.json)
 [![mobile](https://img.shields.io/badge/Mobile-Android_WebView-9b7b5d?style=flat-square&labelColor=2f2a24)](android/app/build.gradle)
 [![sync](https://img.shields.io/badge/Sync-COS_V3-5a6e5c?style=flat-square&labelColor=2f2a24)](src/sync/v3/v3SyncRunner.ts)
@@ -25,7 +25,7 @@
 
 Forge-OS 把周看板、每日反思、周复盘、月度 OKR、数据备份和 COS 同步放在同一套本地优先基板中。它不是一个更吵的待办软件，而是一套帮助你每天留下证据、每周收束卡点、每月修正目标的个人操作系统。
 
-当前发布版本：v2.0.1（工程版本 `2.0.1`）。Forge OS 2.0 从 v2.0 起作为独立大版本发布。发布说明见 [docs/releases/v2.0.1.md](docs/releases/v2.0.1.md)。
+当前发布版本：v2.1.0（工程版本 `2.1.0`）。Forge OS 2.0 从 v2.0 起作为独立大版本发布。发布说明见 [docs/releases/v2.1.0.md](docs/releases/v2.1.0.md)。
 
 ---
 
@@ -40,7 +40,8 @@ npm run dev
 
 ```bash
 npm run build
-npm run electron:build
+npm run electron:build       # 桌面端 (~100MB)
+npm run launcher:build       # 轻量浏览器端单文件 exe (~9MB)
 ```
 
 Android 工程构建入口：
@@ -84,6 +85,7 @@ npm run android:build
 |---|---|---|
 | 浏览器开发环境 | localStorage + 迁移层 | `npm run dev` |
 | Electron 桌面端 | 本机文件存储 + 退出前同步刷盘 | `npm run electron:build` |
+| 浏览器端 Launcher | 本机文件存储（与 Electron 共享 `%APPDATA%/Forge`） | `npm run launcher:build` |
 | Android WebView | App 私有文件 `forge-data.json`，不依赖 WebView localStorage | `npm run android:build` |
 | COS 云同步 | `Forge-OS_Base/v2.0/Domain1127` 前缀下的 V3 实体快照与历史备份 | 系统页同步面板 |
 
@@ -101,6 +103,7 @@ COS 相关配置以 `.env.example` 为模板；真实密钥只放本地环境变
 | `npm run lint` | 运行 ESLint |
 | `npm run preview` | 预览生产构建 |
 | `npm run electron:build` | 构建桌面端安装/便携产物 |
+| `npm run launcher:build` | 构建轻量浏览器端单文件 exe |
 | `npm run android:build` | 构建 Android 工程 |
 | `npm run android:install` | 安装 Android 构建到设备 |
 | `npm run android:smoke` | 运行 Android 冒烟脚本 |
@@ -115,6 +118,7 @@ COS 相关配置以 `.env.example` 为模板；真实密钥只放本地环境变
 ForgeOS-2.0/
 ├── android/                 # Android WebView 壳与 Gradle 工程
 ├── electron/                # Electron 主进程与 preload
+├── launcher/                # 轻量浏览器端单文件 exe（Go）
 ├── docs/                    # 产品设计、发布说明、实施计划
 ├── openspec/                # OpenSpec 正式规格与归档变更
 ├── public/                  # 静态资源
@@ -135,10 +139,10 @@ ForgeOS-2.0/
 <summary><strong>发布与版本</strong></summary>
 
 - 当前产品大版本：Forge OS 2.0。
-- 对外发布版本：v2.0.1。
-- 工程版本：`2.0.1`。
-- GitHub Release：`v2.0.1`，由 electron-builder 按 semver 自动发布桌面端资产。
-- Android 版本：`versionName 2.0.1`、`versionCode 21`。
+- 对外发布版本：v2.1.0。
+- 工程版本：`2.1.0`。
+- GitHub Release：`v2.1.0`，由 electron-builder 发布桌面端资产，launcher 轻量 exe 作为补充资产一并发布。
+- Android 版本：`versionName 2.0.1`、`versionCode 21`（本次未含 Android 变更）。
 
 发布工作流位于 `.github/workflows/release.yml`，通过 `v*` tag 或手动 workflow dispatch 触发。
 

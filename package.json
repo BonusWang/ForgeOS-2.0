@@ -1,13 +1,14 @@
 {
   "name": "forge-os",
   "private": true,
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Forge-OS - Forge yourself —— 自己锻造自己",
   "author": "Forge-OS Contributors",
   "type": "module",
   "main": "electron/main.cjs",
   "scripts": {
     "dev": "vite",
+    "dev:open": "vite --open",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -15,7 +16,8 @@
     "android:build": "node scripts/run-android-build.mjs",
     "android:install": "node scripts/run-android-install.mjs",
     "android:smoke": "node scripts/run-android-smoke.mjs",
-    "cos:signer": "node scripts/cos-signed-url-server.mjs"
+    "cos:signer": "node scripts/cos-signed-url-server.mjs",
+    "launcher:build": "node scripts/build-launcher.mjs"
   },
   "build": {
     "appId": "com.forgeos.app",

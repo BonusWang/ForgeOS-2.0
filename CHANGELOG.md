@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-06-17
+
+### Added
+- 新增轻量浏览器端 launcher：Go 编写的单文件 exe（约 9MB），双击在系统默认浏览器运行 Forge-OS，与 Electron 桌面端共享同一份本地数据，前端零改动。
+- 新增 `npm run launcher:build` 一键构建 launcher exe（`vite build` → 复制 `dist` → `go build` 内嵌）。
+- 新增浏览器端一键启动脚本 `start-browser.bat` / `scripts/dev-launch.ps1`（先清理 Vite 端口上的旧 dev server 再启动并自动打开浏览器，只清理 5173-5180 端口，不误伤其他 node 应用）。
+- 新增 `npm run dev:open` 启动开发服务器并自动打开浏览器。
+
+### Changed
+- README 补充 launcher 作为轻量分发选项的说明，以及与 Electron 桌面端的体积/形态取舍（~100MB → ~9MB）。
+- 发布版本升级到 2.1.0。
+
 ## [2.0.1] - 2026-06-10
 
 ### Added
