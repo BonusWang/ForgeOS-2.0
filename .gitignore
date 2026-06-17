@@ -14,8 +14,11 @@ node_modules
 dist
 dist-ssr
 *.local
+.claude/
 release
 tmp/
+launcher/web/*
+!launcher/web/.gitkeep
 .gstack/
 *.png_bak
 android/.gradle/
