@@ -9,6 +9,7 @@ import MobileAppShell from './features/mobile/MobileAppShell';
 import { useWeekCleanup } from './hooks/useWeekCleanup';
 import { useStartupCosSync } from './hooks/useStartupCosSync';
 import { useAutoCosSync } from './hooks/useAutoCosSync';
+import { useExternalDataSync } from './hooks/useExternalDataSync';
 import { useDocumentTitle } from './hooks/useDocumentTitle';
 import { useAppStore } from './store/useAppStore';
 import { checkUpdate, APP_VERSION } from './utils/checkUpdate';
@@ -19,6 +20,7 @@ import { platformStorage } from './utils/platformStorage';
 
 type VisualStyle = 'classic' | 'claude' | 'supabase' | 'dossier';
 
+const DESKTOP_VISUAL_STYLE_KEY = 'forge-os.desktopVisualStyle';
 const MOBILE_VISUAL_STYLE_LOCAL_KEY = 'forge-os.mobileVisualStyleLocal';
 const MOBILE_VISUAL_STYLE_KEY = 'forge-os.mobileVisualStyle';
 
@@ -143,6 +145,11 @@ const readStoredMobileVisualStyle = (): VisualStyle => {
   return typeof value === 'string' ? (normalizeVisualStyle(value) ?? 'classic') : 'classic';
 };
 
+const readStoredDesktopVisualStyle = (): VisualStyle => {
+  const value = readMobilePreferenceState(DESKTOP_VISUAL_STYLE_KEY);
+  return typeof value === 'string' ? (normalizeVisualStyle(value) ?? 'classic') : 'classic';
+};
+
 const readStoredMobileVisualStyleLocal = () => {
   return readMobilePreferenceState(MOBILE_VISUAL_STYLE_LOCAL_KEY) === true;
 };
@@ -181,7 +188,7 @@ const canAutoCheckUpdates = () => Boolean(window.electronAPI?.getAppVersion);
 function App() {
   const [page, setPage] = useState<'dashboard' | 'reflection' | 'weeklyReview' | 'monthlyOKR' | 'system'>('dashboard');
   const [weeklyReviewWeekStart, setWeeklyReviewWeekStart] = useState('');
-  const [visualStyle, setVisualStyle] = useState<VisualStyle>('classic');
+  const [visualStyle, setVisualStyle] = useState<VisualStyle>(() => readStoredDesktopVisualStyle());
   const [mobileVisualStyle, setMobileVisualStyle] = useState<VisualStyle>(() => readStoredMobileVisualStyle());
   const [isMobileVisualStyleLocal, setIsMobileVisualStyleLocal] = useState(() => readStoredMobileVisualStyleLocal());
   const [modulePickerOpen, setModulePickerOpen] = useState(false);
@@ -198,6 +205,7 @@ function App() {
   useWeekCleanup();
   useStartupCosSync();
   useAutoCosSync();
+  useExternalDataSync();
   useDocumentTitle();
 
   // Check for updates on mount
@@ -275,6 +283,10 @@ function App() {
     return () => {
       delete document.body.dataset.aloVisualStyle;
     };
+  }, [visualStyle]);
+
+  useEffect(() => {
+    writeMobilePreferenceState(DESKTOP_VISUAL_STYLE_KEY, visualStyle);
   }, [visualStyle]);
 
   useEffect(() => {

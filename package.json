@@ -16,8 +16,7 @@
     "android:build": "node scripts/run-android-build.mjs",
     "android:install": "node scripts/run-android-install.mjs",
     "android:smoke": "node scripts/run-android-smoke.mjs",
-    "cos:signer": "node scripts/cos-signed-url-server.mjs",
-    "launcher:build": "node scripts/build-launcher.mjs"
+    "cos:signer": "node scripts/cos-signed-url-server.mjs"
   },
   "build": {
     "appId": "com.forgeos.app",

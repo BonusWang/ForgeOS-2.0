@@ -67,10 +67,22 @@ export default defineConfig({
     {
       name: 'forge-dev-appdata-storage',
       configureServer(server) {
+        const sseClients = new Set<import('node:http').ServerResponse>()
         server.middlewares.use('/__forge_data__', async (request, response) => {
           try {
             const requestUrl = new URL(request.url ?? '/', 'http://localhost')
             const storageName = decodeURIComponent(requestUrl.pathname.replace(/^\/+/, ''))
+            if (storageName === '__events__' && request.method === 'GET') {
+              response.writeHead(200, {
+                'Content-Type': 'text/event-stream',
+                'Cache-Control': 'no-cache',
+                'Connection': 'keep-alive',
+              })
+              sseClients.add(response)
+              request.on('close', () => sseClients.delete(response))
+              return
+            }
+
             if (storageName === '__storage_url__') {
               sendJson(response, 200, { path: forgeDataFile })
               return
@@ -93,6 +105,9 @@ export default defineConfig({
               const body = await readRequestBody(request)
               record[storageName] = JSON.stringify(JSON.parse(body))
               writeStorageRecord(record)
+              for (const client of sseClients) {
+                client.write(`data: ${JSON.stringify({ entity: storageName, timestamp: Date.now() })}\n\n`)
+              }
               sendJson(response, 200, { ok: true })
               return
             }
@@ -100,6 +115,9 @@ export default defineConfig({
             if (request.method === 'DELETE') {
               delete record[storageName]
               writeStorageRecord(record)
+              for (const client of sseClients) {
+                client.write(`data: ${JSON.stringify({ entity: storageName, timestamp: Date.now() })}\n\n`)
+              }
               sendJson(response, 200, { ok: true })
               return
             }

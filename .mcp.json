@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "forge-os-data": {
+      "command": "python",
+      "args": ["E:\\github\\ForgeOS-2.0\\mcp-server\\forge_data_mcp.py"]
+    }
+  }
+}

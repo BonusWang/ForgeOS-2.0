@@ -41,7 +41,6 @@ npm run dev
 ```bash
 npm run build
 npm run electron:build       # 桌面端 (~100MB)
-npm run launcher:build       # 轻量浏览器端单文件 exe (~9MB)
 ```
 
 Android 工程构建入口：
@@ -64,6 +63,7 @@ npm run android:build
 | COS V3 同步 | 基于实体级 envelope、namespace、三方合并和冲突保留，支持浏览器与手机跨端同步 |
 | 本地优先 | Electron、Android 私有存储和浏览器 localStorage 都走统一数据迁移与备份契约 |
 | 系统信任 | 系统页提供数据健康、备份、同步、更新和使用节奏提示，让用户知道数据在哪里、状态如何 |
+| AI 互联 | MCP Server 让 AI 工具直接读写任务/复盘/心情/OKR，SSE 自动同步外部写入到浏览器 |
 
 ---
 
@@ -85,11 +85,14 @@ npm run android:build
 |---|---|---|
 | 浏览器开发环境 | localStorage + 迁移层 | `npm run dev` |
 | Electron 桌面端 | 本机文件存储 + 退出前同步刷盘 | `npm run electron:build` |
-| 浏览器端 Launcher | 本机文件存储（与 Electron 共享 `%APPDATA%/Forge`） | `npm run launcher:build` |
 | Android WebView | App 私有文件 `forge-data.json`，不依赖 WebView localStorage | `npm run android:build` |
 | COS 云同步 | `Forge-OS_Base/v2.0/Domain1127` 前缀下的 V3 实体快照与历史备份 | 系统页同步面板 |
 
 COS 相关配置以 `.env.example` 为模板；真实密钥只放本地环境变量，不提交到仓库。
+
+AI 工具（Codex / Claude Code 等）可通过 MCP Server 读写 ForgeOS 数据，详见 [mcp-server/README.md](mcp-server/README.md)。dev server 写入后通过 SSE 自动通知浏览器更新。
+
+服务生命周期管理（启动/停止/重启/状态检查）使用运维脚本 `scripts/forge-service.ps1`，AI 通过 forge-launcher skill 调用。
 
 ---
 
@@ -103,7 +106,6 @@ COS 相关配置以 `.env.example` 为模板；真实密钥只放本地环境变
 | `npm run lint` | 运行 ESLint |
 | `npm run preview` | 预览生产构建 |
 | `npm run electron:build` | 构建桌面端安装/便携产物 |
-| `npm run launcher:build` | 构建轻量浏览器端单文件 exe |
 | `npm run android:build` | 构建 Android 工程 |
 | `npm run android:install` | 安装 Android 构建到设备 |
 | `npm run android:smoke` | 运行 Android 冒烟脚本 |
@@ -118,14 +120,15 @@ COS 相关配置以 `.env.example` 为模板；真实密钥只放本地环境变
 ForgeOS-2.0/
 ├── android/                 # Android WebView 壳与 Gradle 工程
 ├── electron/                # Electron 主进程与 preload
-├── launcher/                # 轻量浏览器端单文件 exe（Go）
+├── mcp-server/              # MCP Server（AI 工具读写 ForgeOS 数据）
 ├── docs/                    # 产品设计、发布说明、实施计划
 ├── openspec/                # OpenSpec 正式规格与归档变更
 ├── public/                  # 静态资源
-├── scripts/                 # Android、COS、构建辅助脚本
+├── scripts/                 # Android、COS、构建辅助、服务运维脚本
 ├── src/
 │   ├── features/            # 周看板、反思、OKR、同步、系统等功能模块
 │   ├── pages/               # 桌面端页面
+│   ├── hooks/               # React hooks（含 SSE 外部写入同步）
 │   ├── store/               # Zustand 状态切片
 │   ├── sync/                # COS 与 V3 实体级同步
 │   ├── types/               # 数据契约
@@ -141,7 +144,7 @@ ForgeOS-2.0/
 - 当前产品大版本：Forge OS 2.0。
 - 对外发布版本：v2.1.0。
 - 工程版本：`2.1.0`。
-- GitHub Release：`v2.1.0`，由 electron-builder 发布桌面端资产，launcher 轻量 exe 作为补充资产一并发布。
+- GitHub Release：`v2.1.0`，由 electron-builder 发布桌面端资产。
 - Android 版本：`versionName 2.0.1`、`versionCode 21`（本次未含 Android 变更）。
 
 发布工作流位于 `.github/workflows/release.yml`，通过 `v*` tag 或手动 workflow dispatch 触发。

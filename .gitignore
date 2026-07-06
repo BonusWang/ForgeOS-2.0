@@ -17,8 +17,6 @@ dist-ssr
 .claude/
 release
 tmp/
-launcher/web/*
-!launcher/web/.gitkeep
 .gstack/
 *.png_bak
 android/.gradle/
@@ -28,6 +26,9 @@ android/app/build/
 src-tauri/target
 .codex/dev-*.log
 .codex/design-review/
+.codex-logs/
+.vite/
+vite-dev-current.*
 
 # Editor directories and files
 .vscode/*

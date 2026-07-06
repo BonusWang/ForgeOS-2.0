@@ -1,0 +1,4 @@
+interface:
+  display_name: "ForgeOS 服务控制"
+  short_description: "启动/停止/重启 ForgeOS dev 服务"
+  default_prompt: "Use $forge-launcher to start, stop, restart, or check status of the ForgeOS dev service."
